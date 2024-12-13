@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Executor Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .breadcrumb {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+        .breadcrumb li {
+            margin-right: 10px;
+        }
+        .breadcrumb li a {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+        .breadcrumb li a:hover {
+            color: #0056b3;
+        }
+        .breadcrumb li::after {
+            content: '>';
+            margin-left: 10px;
+        }
+        .breadcrumb li:last-child::after {
+            content: '';
+        }
+        .breadcrumb li.active a {
+            color: #6c757d;
+        }
+
+        .table-container {
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Executor Management</h1>
+
+    <!-- Breadcrumb Navigation -->
+    <ul class="breadcrumb" id="breadcrumb">
+        <li><a href="#" onclick="navigateTo('home')">Home</a></li>
+    </ul>
+
+    <!-- Project Table -->
+    <div id="project-panel" class="table-container">
+        <h2>Projects</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Project Name</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectA')">Project A</a></td>
+                    <td>Description of Project A</td>
+                    <td><a href="#" onclick="navigateTo('projectAConfig')">View Config</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectB')">Project B</a></td>
+                    <td>Description of Project B</td>
+                    <td><a href="#" onclick="navigateTo('projectBConfig')">View Config</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Config Table for Project A -->
+    <div id="projectA-config-panel" class="table-container hidden">
+        <h2>Config for Project A</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Config Name</th>
+                    <th>Config Value</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSession')">Config A1</a></td>
+                    <td>Value A1</td>
+                    <td><a href="#" onclick="navigateTo('projectA')">Back to Project A</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSession')">Config A2</a></td>
+                    <td>Value A2</td>
+                    <td><a href="#" onclick="navigateTo('projectA')">Back to Project A</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Config Table for Project B -->
+    <div id="projectB-config-panel" class="table-container hidden">
+        <h2>Config for Project B</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Config Name</th>
+                    <th>Config Value</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectBConfigSession')">Config B1</a></td>
+                    <td>Value B1</td>
+                    <td><a href="#" onclick="navigateTo('projectB')">Back to Project B</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectBConfigSession')">Config B2</a></td>
+                    <td>Value B2</td>
+                    <td><a href="#" onclick="navigateTo('projectB')">Back to Project B</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Session Table for Project A -->
+    <div id="projectAConfigSession-panel" class="table-container hidden">
+        <h2>Session for Project A - Config A</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Session Name</th>
+                    <th>Session Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuild')">Session A1</a></td>
+                    <td>Running</td>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuild')">View Build</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuild')">Session A2</a></td>
+                    <td>Completed</td>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuild')">View Build</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Session Table for Project B -->
+    <div id="projectBConfigSession-panel" class="table-container hidden">
+        <h2>Session for Project B - Config B</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Session Name</th>
+                    <th>Session Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectBConfigSessionBuild')">Session B1</a></td>
+                    <td>Running</td>
+                    <td><a href="#" onclick="navigateTo('projectBConfigSessionBuild')">View Build</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectBConfigSessionBuild')">Session B2</a></td>
+                    <td>Completed</td>
+                    <td><a href="#" onclick="navigateTo('projectBConfigSessionBuild')">View Build</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Build Table for Project A -->
+    <div id="projectAConfigSessionBuild-panel" class="table-container hidden">
+        <h2>Build for Project A - Config A - Session A</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Build Name</th>
+                    <th>Build Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuildTest')">Build A1</a></td>
+                    <td>Successful</td>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuildTest')">View Test</a></td>
+                </tr>
+                <tr>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuildTest')">Build A2</a></td>
+                    <td>Failed</td>
+                    <td><a href="#" onclick="navigateTo('projectAConfigSessionBuildTest')">View Test</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Test Table for Project A -->
+    <div id="projectAConfigSessionBuildTest-panel" class="table-container hidden">
+        <h2>Test for Project A - Config A - Session A - Build A</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Test Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Test A1</td>
+                    <td>Passed</td>
+                </tr>
+                <tr>
+                    <td>Test A2</td>
+                    <td>Failed</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    // Define the panel navigation function
+    function navigateTo(panel) {
+        // Hide all panels
+        const panels = document.querySelectorAll('.table-container');
+        panels.forEach(panel => panel.classList.add('hidden'));
+
+        // Show the selected panel
+        if (panel === 'home') {
+            document.getElementById('project-panel').classList.remove('hidden');
+            updateBreadcrumb('home');
+        } else if (panel === 'projectA') {
+            document.getElementById('projectA-config-panel').classList.remove('hidden');
+            updateBreadcrumb('projectA');
+        } else if (panel === 'projectB') {
+            document.getElementById('projectB-config-panel').classList.remove('hidden');
+            updateBreadcrumb('projectB');
+        } else if (panel === 'projectAConfig') {
+            document.getElementById('projectA-config-panel').classList.remove('hidden');
+            updateBreadcrumb('projectAConfig');
+        } else if (panel === 'projectBConfig') {
+            document.getElementById('projectB-config-panel').classList.remove('hidden');
+            updateBreadcrumb('projectBConfig');
+        } else if (panel === 'projectAConfigSession') {
+            document.getElementById('projectAConfigSession-panel').classList.remove('hidden');
+            updateBreadcrumb('projectAConfigSession');
+        } else if (panel === 'projectBConfigSession') {
+            document.getElementById('projectBConfigSession-panel').classList.remove('hidden');
+            updateBreadcrumb('projectBConfigSession');
+        } else if (panel === 'projectAConfigSessionBuild') {
+            document.getElementById('projectAConfigSessionBuild-panel').classList.remove('hidden');
+            updateBreadcrumb('projectAConfigSessionBuild');
+        } else if (panel === 'projectBConfigSessionBuild') {
+            document.getElementById('projectBConfigSessionBuild-panel').classList.remove('hidden');
+            updateBreadcrumb('projectBConfigSessionBuild');
+        } else if (panel === 'projectAConfigSessionBuildTest') {
+            document.getElementById('projectAConfigSessionBuildTest-panel').classList.remove('hidden');
+            updateBreadcrumb('projectAConfigSessionBuildTest');
+        } else if (panel === 'projectBConfigSessionBuildTest') {
+            document.getElementById('projectBConfigSessionBuildTest-panel').classList.remove('hidden');
+            updateBreadcrumb('projectBConfigSessionBuildTest');
+        }
+    }
+
+    // Update breadcrumb navigation based on the selected panel
+    function updateBreadcrumb(panel) {
+        const breadcrumb = document.getElementById('breadcrumb');
+        breadcrumb.innerHTML = ''; // Clear current breadcrumb
+
+        if (panel === 'home') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li>';
+        } else if (panel === 'projectA') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li>Project A</li>';
+        } else if (panel === 'projectB') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li>Project B</li>';
+        } else if (panel === 'projectAConfig') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectA\')">Project A</a></li><li>Config</li>';
+        } else if (panel === 'projectBConfig') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectB\')">Project B</a></li><li>Config</li>';
+        } else if (panel === 'projectAConfigSession') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectAConfig\')">Project A</a></li><li>Session</li>';
+        } else if (panel === 'projectBConfigSession') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectBConfig\')">Project B</a></li><li>Session</li>';
+        } else if (panel === 'projectAConfigSessionBuild') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectAConfigSession\')">Project A</a></li><li>Build</li>';
+        } else if (panel === 'projectBConfigSessionBuild') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectBConfigSession\')">Project B</a></li><li>Build</li>';
+        } else if (panel === 'projectAConfigSessionBuildTest') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectAConfigSessionBuild\')">Project A</a></li><li>Test</li>';
+        } else if (panel === 'projectBConfigSessionBuildTest') {
+            breadcrumb.innerHTML = '<li><a href="#" onclick="navigateTo(\'home\')">Home</a></li><li><a href="#" onclick="navigateTo(\'projectBConfigSessionBuild\')">Project B</a></li><li>Test</li>';
+        }
+    }
+
+    // Initially show the home panel
+    navigateTo('home');
+</script>
+
+</body>
+</html>
